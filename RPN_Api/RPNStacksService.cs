@@ -2,6 +2,8 @@
 {
     public class RPNStacksService
     {
+        private Dictionary<int, Stack<double>> _stacks = new();
+        private int id = 0; //save last index
         public string GetAvailableStacksId()
         {
             return string.Empty;
@@ -11,5 +13,12 @@
         {
             return $"Stack Id {id} content: ";
         }
+
+        public int CreateNewStack()
+        {
+            _stacks.Add(id, new Stack<double>());
+			return id++;
+        }
+
     }
 }

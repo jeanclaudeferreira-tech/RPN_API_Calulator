@@ -21,9 +21,16 @@ namespace RPN_Api_V1
 
             app.MapGet("/rpn/stack/{stack_id:int}", (
                 [FromRoute(Name ="stack_id") ] int stackId,
-                [FromServices] RPNStacksService service) => {
+                [FromServices] RPNStacksService service) => 
+            {
                 string result = service.GetStackId(stackId);
                 return Results.Ok(result);
+            });
+
+            app.MapPost("/rpn/stack", (RPNStacksService service) => 
+            {
+                int stackId = service.CreateNewStack();
+                return Results.Ok(stackId);
             });
 
             app.Run();
