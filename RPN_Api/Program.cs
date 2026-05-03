@@ -30,9 +30,18 @@ namespace RPN_Api_V1
             app.MapPost("/rpn/stack", (RPNStacksService service) => 
             {
                 int stackId = service.CreateNewStack();
-                return Results.Ok(stackId);
+                return Results.Ok(stackId); //toto Results.Created
             });
 
+            app.MapDelete("/rpn/stack/{stack_id:int}", (
+                 [FromRoute(Name ="stack_id")] int stackId, 
+                 [FromServices] RPNStacksService service) => 
+            { 
+                var result = service.DeleteStack(stackId);
+                if(result) return Results.Ok($"Stack_id {stackId} deleted successfully");
+                return Results.NotFound(stackId); 
+            });
+            
             app.Run();
 
          

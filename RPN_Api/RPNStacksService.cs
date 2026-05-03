@@ -17,7 +17,12 @@
         public int CreateNewStack()
         {
             _stacks.Add(id, new Stack<double>());
-			return id++;
+            return id++;
+        }
+
+        public bool DeleteStack(int id)
+        {
+            return _stacks.Remove(id);
         }
 
     }
