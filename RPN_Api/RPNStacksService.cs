@@ -6,5 +6,10 @@
         {
             return string.Empty;
         }
+
+        public string GetStackId(int id)
+        {
+            return $"Stack Id {id} content: ";
+        }
     }
 }
