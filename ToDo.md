@@ -9,7 +9,7 @@ Application client/serveur REST de calculatrice en notation polonaise inverse
 - [ ] Reuse Id after deleted stack
 - [ ] Save data in a database
 - [ ] Use JSON to get content of a stack or list of available stacks
-- [ ] When a stack is created return the code 201 Created insted of 200
+- [ ] When a stack is created return the code 201 Created instead of 200
 
 ### Done ✓
 
