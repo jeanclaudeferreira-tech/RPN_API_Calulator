@@ -43,6 +43,16 @@ namespace RPN_Api_V1
                 if(result) return Results.Ok($"Stack_id {stackId} deleted successfully");
                 return Results.NotFound(stackId); 
             });
+
+            app.MapPost("/rpn/stack/{stack_id:int}/{value:int}", (
+                [FromRoute(Name = "stack_id")] int stackId,
+                [FromRoute] int value,
+                [FromServices] RPNStacksService service) =>
+            {
+                if (!service.StackIdExists(stackId)) return Results.NotFound();
+                if (!service.AddValueToStack(stackId, value)) Results.NotFound(); 
+                return Results.Ok();
+            });
             
             app.Run();
 
