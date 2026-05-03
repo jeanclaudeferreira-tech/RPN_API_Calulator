@@ -23,6 +23,8 @@ namespace RPN_Api_V1
                 [FromRoute(Name ="stack_id") ] int stackId,
                 [FromServices] RPNStacksService service) => 
             {
+                if(!service.StackIdExists(stackId)) return Results.NotFound();
+
                 string result = service.GetStackId(stackId);
                 return Results.Ok(result);
             });
