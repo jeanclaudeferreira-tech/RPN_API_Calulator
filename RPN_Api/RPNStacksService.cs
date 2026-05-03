@@ -4,6 +4,11 @@
     {
         private Dictionary<int, Stack<double>> _stacks = new();
         private int _id = 0; //save last index
+
+        public string GetOperators()
+        {
+            return "+;-;*;div;";
+        }
         public string GetAvailableStacksId()
         {
             return string.Join("; ", _stacks.Keys);
@@ -32,6 +37,7 @@
         {
             return _stacks.Remove(id);
         }
+
         public bool AddValueToStack(int stackId, int value)
         {
             if (StackIdExists(stackId))
@@ -41,6 +47,28 @@
             }
             return false;
         }
+        public bool ApplyOperator(string ope, int stackId)
+        {
+            if(_stacks[stackId].Count < 2) return false;
 
+            double val2 = _stacks[stackId].Pop();
+            double val1 = _stacks[stackId].Pop();
+            switch(ope)
+            {
+                case "+":
+                    _stacks[stackId].Push(val1 + val2);
+                    break;
+                case "-":
+                    _stacks[stackId].Push(val1 - val2);
+                    break;
+                case "*":
+                    _stacks[stackId].Push(val1 * val2);
+                    break;
+                case "div":
+                    _stacks[stackId].Push(val1 / val2);
+                    break;
+            }
+            return true;
+        }
     }
 }

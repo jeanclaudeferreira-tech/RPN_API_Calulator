@@ -10,9 +10,11 @@ namespace RPN_Api_V1
             builder.Services.AddSingleton<RPNStacksService>();
             var app = builder.Build();
             
-            app.MapGet("/rpn/op", () => {
-                return Results.Ok("List of available operators : + - * /");
-                });
+            app.MapGet("/rpn/op", (
+                [FromServices]RPNStacksService service) => 
+            {
+                return Results.Ok($"List of available operators : {service.GetOperators()}");
+            });
 
             app.MapGet("/rpn/stack", (RPNStacksService service) => {
                 string result = service.GetAvailableStacksId();
@@ -53,10 +55,20 @@ namespace RPN_Api_V1
                 if (!service.AddValueToStack(stackId, value)) Results.NotFound(); 
                 return Results.Ok();
             });
-            
+
+            app.MapPost("/rpn/op/{op}/stack/{stack_id:int}", (
+                [FromRoute] string op,
+                [FromRoute(Name="stack_id")] int stackId,
+                [FromServices] RPNStacksService service) => 
+            {
+                if (!service.StackIdExists(stackId)) return Results.NotFound($"Stack {stackId} doesn't exist.");
+                if (!service.GetOperators().Contains(op)) return Results.BadRequest($"Unauthorised operator {op}.");
+                if (!service.ApplyOperator(op, stackId)) return Results.BadRequest("An error occurred when applying the operator.");
+                return Results.Ok();
+            });
+
             app.Run();
 
-         
         }
     }
 }
