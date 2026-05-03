@@ -4,7 +4,14 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var builder = WebApplication.CreateBuilder();
+            var app = builder.Build();
+            app.MapGet("/rpn/op", () => {
+                return Results.Ok("List of available operators : + - * /");
+                });
+            app.Run();
+
+
         }
     }
 }
