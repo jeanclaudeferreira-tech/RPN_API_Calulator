@@ -8,6 +8,7 @@ namespace RPN_Api_V1
         {
             var builder = WebApplication.CreateBuilder();
             builder.Services.AddSingleton<RPNStacksService>();
+            builder.Services.AddSwaggerGen();
             var app = builder.Build();
             
             app.MapGet("/rpn/op", (
@@ -66,6 +67,13 @@ namespace RPN_Api_V1
                 if (!service.ApplyOperator(op, stackId)) return Results.BadRequest("An error occurred when applying the operator.");
                 return Results.Ok();
             });
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.Run();
 
